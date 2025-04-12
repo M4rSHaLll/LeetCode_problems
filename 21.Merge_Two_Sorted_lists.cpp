@@ -11,62 +11,51 @@ struct ListNode {
 
     class Solution {
         public:
-            ListNode* mergeTwoLists(ListNode* list1, ListNode* list2) {
-                ListNode *newList, *temp;
-                
-                list1->val < list2->val ? newList->val = list1->val : newList->val = list2->val;
-                list1->val < list2->val ? list1 = list1->next : list2 = list2->next;
-                list1->val < list2->val ? newList->next = list1 : newList->next = list2;
-                while(list1 != nullptr || list2 != nullptr)
-                {
-                    if(list1 == nullptr){
-                        while(list2 != nullptr){
-                            temp = list2->next;
-                            list2 = list2->next;   
-                        }
-                        break;
-                    }
-                    if(list2 == nullptr){
-                        while(list1 != nullptr){
-                            temp = list1->next;
-                            list1 = list1->next;
-                        }
-                        break;
-                    }
-                    if(list1->val < list2->val){
-                        temp->val = list1->val;
-                        
-                        list1 = list1->next;
-                        (list1->val < list2->val) ? temp->next = list1 : temp->next = list2;
-                    }
-                    else{
-                        temp->val = list2->val;
-                        
-                        list2 = list2->next;
-                        (list1->val < list2->val) ? temp->next = list1 : temp->next = list2;
-                    }
+            int minVal(ListNode* l1, ListNode* l2) {
+                int min;
+                if(l1 == nullptr){
+                    min = l2->val;
+                    l2 = l2->next;
+                    return min;
                 }
-                return newList;
+                if(l2 == nullptr){
+                    min = l1->val;
+                    l1 = l1->next;
+                    return min;
+                }
+
+                if(l1->val < l2->val){
+                    min = l1->val;
+                    l1 = l1->next;
+                }
+                else{
+                    min = l2->val;
+                    l2 = l2->next;
+                }
+                return min;
             }
+            ListNode* mergeTwoLists(ListNode* list1, ListNode* list2) {
+                ListNode *head, *temp, *l1 = list1, *l2 = list2;
+
+                while(l1 != nullptr || l2 != nullptr)
+                {
+                    if(head->next == nullptr){
+                        head->val = minVal(l1,l2);
+                        temp->val = minVal(l1,l2);
+                        head->next = temp;  
+                    }
+                    temp->next = new ListNode(minVal(l1,l2));
+                    temp = temp->next;       
+                      
+                
+                    
+                }
+                return head;
+            }
+            
         };
 
-ListNode* mergeTwoLists(ListNode* list1, ListNode* list2) {
-    ListNode *newList;
-    
-    if(list1->val < list2->val){
-        newList->val = list1->val;
-        list1 = list1->next;
 
-    }
-    else{
-        newList->val = list2->val;
-        list2 = list2->next;
-        
-    }
-    newList->next = mergeTwoLists(list1,list2);            
-                
-    return newList;
-}
 
 int main()
 {
